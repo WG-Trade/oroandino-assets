@@ -1,8 +1,8 @@
 {
   "name": "OroAndino",
   "symbol": "OROA",
-  "description": "OroAndino - Oro andino peruano. 500,000,000 supply.",
-  "image": "https://raw.githubusercontent.com/WG-Trade/oroandino/main/public/oroandino.png",
-  "decimals": 6,
-  "external_url": "https://github.com/WG-Trade/oroandino"
+  "description": "OroAndino - Activo respaldado en oro de los Andes",
+  "image": "https://raw.githubusercontent.com/WG-Trade/oroandino-assets/main/logo.png",
+  "external_url": "https://oroandino.com",
+  "attributes": []
 }
