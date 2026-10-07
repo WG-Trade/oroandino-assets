@@ -1,8 +1,17 @@
 {
   "name": "OroAndino",
   "symbol": "OROA",
-  "description": "OroAndino - Activo respaldado en oro de los Andes",
+  "description": "OroAndino - Token respaldado en oro de los Andes. 500M supply.",
   "image": "https://raw.githubusercontent.com/WG-Trade/oroandino-assets/main/logo.png",
-  "external_url": "https://oroandino.com",
-  "attributes": []
+  "external_url": "https://github.com/WG-Trade/oroandino-assets",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/WG-Trade/oroandino-assets/main/logo.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
 }
