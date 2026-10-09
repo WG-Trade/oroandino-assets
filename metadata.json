@@ -1,16 +1,11 @@
 {
-  "name": "OroAndino",
-  "symbol": "OROA",
-  "description": "OroAndino - Token respaldado en oro de los Andes. 500M supply.",
+  "name": "Oroandino",
+  "symbol": "OROANDINO",
+  "description": "Token $OROANDINO en Solana. Supply: 500,000,000.",
   "image": "https://raw.githubusercontent.com/WG-Trade/oroandino-assets/main/logo.png",
-  "external_url": "https://github.com/WG-Trade/oroandino-assets",
-  "attributes": [],
   "properties": {
     "files": [
-      {
-        "uri": "https://raw.githubusercontent.com/WG-Trade/oroandino-assets/main/logo.png",
-        "type": "image/png"
-      }
+      { "uri": "https://raw.githubusercontent.com/WG-Trade/oroandino-assets/main/logo.png", "type": "image/png" }
     ],
     "category": "image"
   }
