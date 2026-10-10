@@ -6,7 +6,7 @@ const META = "5wM3okb8ozC2sqFWwByigBtd4brKDjK2xHEidBszStLD"; // cuenta de metada
 const SEGURA = "9f9pZ74F8kHAEsvTSPDDkaD7Z7V9RbW7j7cRuf1qxjXe";
 
 // Si emites tokens a propósito, actualiza "supply" aquí (queda registrado en el historial del repo).
-const ESPERADO = { supply: "1", mintAuthority: SEGURA, freezeAuthority: null, updateAuthority: SEGURA };
+const ESPERADO = { supply: "500000000000000", mintAuthority: SEGURA, freezeAuthority: null, updateAuthority: SEGURA };
 
 const A = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 function b58(buf) {
