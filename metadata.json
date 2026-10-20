@@ -3,6 +3,13 @@
   "symbol": "OROANDINO",
   "description": "Token $OROANDINO en Solana. Supply: 500,000,000.",
   "image": "https://raw.githubusercontent.com/WG-Trade/oroandino-assets/main/logo.png",
+  "twitter": "https://x.com/surquillo360",
+  "telegram": "https://t.me/oroandino",
+  "website": "https://oroandino-token-verificador-solana-web.pages.dev/",
+  "extensions": {
+    "twitter": "https://x.com/surquillo360",
+    "telegram": "https://t.me/orosndino"
+  },
   "properties": {
     "files": [
       { "uri": "https://raw.githubusercontent.com/WG-Trade/oroandino-assets/main/logo.png", "type": "image/png" }
