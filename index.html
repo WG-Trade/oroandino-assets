@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src https://api.mainnet-beta.solana.com; base-uri 'none'; form-action 'none'">
+<title>Oroandino · Token en Solana</title>
+<meta name="description" content="Contrato oficial y verificación en vivo del token Oroandino en la red Solana.">
+<link rel="icon" href="logo.png">
+<style>
+:root{--bg1:#241a0a;--bg2:#0f0b05;--tx:#f4ecd8;--mu:#bfb190;--go:#e3c46d;--go2:#b8902f;--br:#8a6a22;--line:rgba(227,196,109,.28);--ok:#9bd9a6;--wn:#ffcf70;--card:rgba(255,236,170,.05);
+--serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media (prefers-color-scheme:light){:root{--bg1:#fbf4df;--bg2:#efe2bb;--tx:#2a2010;--mu:#5d5030;--go:#7a5a10;--go2:#9a7414;--br:#7a5a10;--line:rgba(122,90,16,.35);--ok:#1d6b34;--wn:#8a5a00;--card:rgba(122,90,16,.07)}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--tx);font:17px/1.65 var(--serif);background:radial-gradient(120% 60% at 50% 0,var(--bg1),var(--bg2) 70%) fixed;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+a{color:var(--go);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--go);outline-offset:3px;border-radius:6px}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.greca{height:14px;margin:44px 0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='21' height='14'%3E%3Cpath d='M0 12H3V9H6V6H9V3H12V6H15V9H18V12H21' fill='none' stroke='%23b8902f' stroke-width='1.6'/%3E%3C/svg%3E") repeat-x center;opacity:.85}
+header.hero{text-align:center;padding:40px 0 8px}
+.moneda{width:min(70vw,300px);height:auto;filter:drop-shadow(0 14px 40px rgba(227,196,109,.35))}
+h1{font:600 clamp(44px,12vw,76px)/1 var(--serif);letter-spacing:.01em;margin:22px 0 10px;background:linear-gradient(110deg,#8a6a22 10%,#f6e29b 38%,#c9a24b 55%,#fff0b8 72%,#8a6a22 95%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:brillo 2.6s ease-out 1 both}
+@keyframes brillo{from{background-position:100% 0}to{background-position:0 0}}
+@media (prefers-reduced-motion:reduce){h1{animation:none;background-position:0 0}html{scroll-behavior:auto}}
+.sub{max-width:34em;margin:0 auto 24px;color:var(--mu)}
+.ca{display:flex;gap:10px;align-items:stretch;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px;text-align:left}
+.ca code{flex:1;min-width:0;font:13px/1.4 ui-monospace,Menlo,monospace;word-break:break-all;align-self:center;padding:2px 4px}
+button{font:600 15px var(--sans);border:0;border-radius:9px;padding:12px 16px;color:#1b1406;background:linear-gradient(120deg,#c9a24b,#f1d780,#c9a24b);cursor:pointer}
+button.sec{background:transparent;color:var(--go);border:1px solid var(--line)}
+h2{font:600 28px/1.2 var(--serif);margin:0 0 6px;color:var(--go)}
+p{margin:.6em 0}.mu{color:var(--mu)}
+.fila{display:grid;grid-template-columns:1fr;gap:2px;padding:14px 0;border-top:1px solid var(--line)}
+.fila:last-of-type{border-bottom:1px solid var(--line)}
+.fila .k{font:14px var(--sans);color:var(--mu)}
+.fila .v{font:14px/1.45 ui-monospace,Menlo,monospace;word-break:break-all}
+.fila .s{font:14px var(--sans)}
+.ok{color:var(--ok)}.wn{color:var(--wn)}
+@media (min-width:640px){.fila{grid-template-columns:200px 1fr;column-gap:18px}.fila .s{grid-column:2}}
+.dos{display:grid;gap:28px}
+@media (min-width:640px){.dos{grid-template-columns:1fr 1fr}}
+.dos h3{font:600 20px var(--serif);margin:0 0 6px}
+.dos ul{margin:0;padding-left:1.1em}.dos li{margin:.5em 0}
+.aviso{border-left:3px solid var(--go2);padding:2px 0 2px 16px;margin:18px 0}
+footer{padding:8px 0 48px;font:14px/1.6 var(--sans);color:var(--mu)}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:14px}
+</style></head><body>
+<div class="wrap">
+
+<header class="hero">
+  <img class="moneda" src="logo.png" width="300" height="300" alt="Moneda Oroandino con montañas andinas y la inscripción $OROANDINO">
+  <h1>Oroandino</h1>
+  <p class="sub">Un token en la red Solana con identidad andina. Esta página no te pide que confíes: te muestra cómo comprobar tú mismo el contrato y quién lo controla.</p>
+  <div class="ca" role="group" aria-label="Contrato oficial">
+    <code id="ca">GJWpbjqmS5rm6bQ6bWt7aKuAuzZccZAvzrKaXCEonV35</code>
+    <button id="cp" type="button">Copiar contrato</button>
+  </div>
+</header>
+
+<div class="greca" aria-hidden="true"></div>
+
+<section id="verificar" aria-labelledby="t1">
+  <h2 id="t1">Comprobación en vivo</h2>
+  <p class="mu">Estos datos se leen ahora mismo desde la blockchain, sin intermediarios, y se comparan con lo que publicamos.</p>
+  <div id="filas" aria-live="polite"></div>
+  <p class="mu" id="hora" style="font:14px var(--sans)"></p>
+  <button class="sec" id="rv" type="button">Volver a comprobar</button>
+</section>
+
+<div class="greca" aria-hidden="true"></div>
+
+<section aria-labelledby="t2">
+  <h2 id="t2">Qué es y qué todavía no es</h2>
+  <div class="dos">
+    <div><h3>Lo que es</h3><ul>
+      <li>Un token estándar de Solana con 500.000.000 de unidades y 6 decimales.</li>
+      <li>Sin autoridad para congelar cuentas: nadie puede bloquear tus tokens.</li>
+      <li>Con sus controles en una sola wallet identificada y revisados de forma automática cada 15 minutos.</li>
+    </ul></div>
+    <div><h3>Lo que todavía no es</h3><ul>
+      <li>Un activo respaldado por oro verificable: hoy no hay reservas publicadas.</li>
+      <li>Una promesa de rendimiento o de aumento de valor.</li>
+      <li>Un producto de inversión ni una recomendación de compra.</li>
+    </ul></div>
+  </div>
+  <div class="aviso"><strong>Sobre las reservas.</strong> Cuando existan reservas de oro, esta página mostrará cuántos gramos hay, quién los custodia y cómo comprobarlo por tu cuenta. El token no se presentará como respaldado antes de eso.</div>
+</section>
+
+<div class="greca" aria-hidden="true"></div>
+
+<section aria-labelledby="t3">
+  <h2 id="t3">Cómo reconocer el contrato oficial</h2>
+  <p>Cualquiera puede crear otro token con el mismo nombre y el mismo logo. Lo único que no se puede copiar es la dirección del contrato.</p>
+  <ul>
+    <li>Compara la dirección completa de arriba con la que muestra tu wallet, no solo el nombre.</li>
+    <li>Abre el contrato en <a href="https://solscan.io/token/GJWpbjqmS5rm6bQ6bWt7aKuAuzZccZAvzrKaXCEonV35" rel="noopener">Solscan</a> y confirma que coincide.</li>
+    <li>Desconfía de quien te escriba primero ofreciendo tokens, premios o "verificaciones".</li>
+    <li>Nadie del proyecto te pedirá jamás tu frase de recuperación ni tu clave privada.</li>
+  </ul>
+</section>
+
+<div class="greca" aria-hidden="true"></div>
+
+<footer>
+  <nav aria-label="Enlaces">
+    <a href="https://solscan.io/token/GJWpbjqmS5rm6bQ6bWt7aKuAuzZccZAvzrKaXCEonV35" rel="noopener">Contrato en Solscan</a>
+    <a href="https://github.com/WG-Trade/oroandino-assets" rel="noopener">Archivos públicos</a>
+    <a href="https://github.com/WG-Trade/oroandino-assets/actions/workflows/monitor.yml" rel="noopener">Vigilancia automática</a>
+  </nav>
+  <p>Contenido informativo. No constituye oferta, recomendación ni asesoría financiera o legal. Los tokens digitales pueden perder valor.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+var MINT="GJWpbjqmS5rm6bQ6bWt7aKuAuzZccZAvzrKaXCEonV35",META="5wM3okb8ozC2sqFWwByigBtd4brKDjK2xHEidBszStLD";
+var SEGURA="9f9pZ74F8kHAEsvTSPDDkaD7Z7V9RbW7j7cRuf1qxjXe",SUPPLY="500000000000000",RPC="https://api.mainnet-beta.solana.com";
+var ALF="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+var $=function(i){return document.getElementById(i)};
+function b58(buf){var n=0n,i;for(i=0;i<buf.length;i++)n=n*256n+BigInt(buf[i]);var s="";while(n>0n){s=ALF[Number(n%58n)]+s;n/=58n;}for(i=0;i<buf.length&&buf[i]===0;i++)s="1"+s;return s;}
+function rpc(m,p){return fetch(RPC,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:m,params:p})}).then(function(r){return r.json()}).then(function(j){if(j.error)throw new Error(j.error.message);return j.result;});}
+function fila(k,v,ok,txt){var d=document.createElement("div");d.className="fila";
+ [["k",k],["v",v],["s",txt]].forEach(function(p){var e=document.createElement("div");e.className=p[0]+(p[0]==="s"?(ok===null?"":(ok?" ok":" wn")):"");e.textContent=(p[0]==="s"?(ok===null?"":(ok?"✓ ":"⚠ ")):"")+p[1];d.appendChild(e);});return d;}
+function comprobar(){var box=$("filas");box.textContent="Leyendo la blockchain…";$("hora").textContent="";
+ Promise.all([rpc("getAccountInfo",[MINT,{encoding:"jsonParsed"}]),rpc("getAccountInfo",[META,{encoding:"base64"}]),rpc("getTokenAccountsByOwner",[SEGURA,{mint:MINT},{encoding:"jsonParsed"}])]).then(function(r){
+  var i=r[0].value.data.parsed.info,upd=b58(Uint8Array.from(atob(r[1].value.data[0]),function(c){return c.charCodeAt(0)}).slice(1,33));
+  var ma=i.mintAuthority||null,fa=i.freezeAuthority||null;box.textContent="";
+  box.appendChild(fila("Cantidad total",(Number(i.supply)/Math.pow(10,i.decimals)).toLocaleString("es-PE")+" OROANDINO",i.supply===SUPPLY,i.supply===SUPPLY?"Coincide con lo publicado":"Cambió respecto a lo publicado"));
+  var reserva=r[2].value.reduce(function(a,c){return a+BigInt(c.account.data.parsed.info.tokenAmount.amount)},0n),fuera=BigInt(i.supply)-reserva,dv=Math.pow(10,i.decimals);
+  var fm=function(x){return (Number(x)/dv).toLocaleString("es-PE",{maximumFractionDigits:6})+" OROANDINO"};
+  box.appendChild(fila("En la reserva, sin entregar",fm(reserva),null,"Guardados en la wallet publicada. Estos tokens no representan oro."));
+  box.appendChild(fila("Fuera de la reserva",fm(fuera),null,fuera===0n?"Todavía no se ha entregado ningún token.":"Ya salieron de la wallet de reserva. Incluye cuentas operativas del proyecto."));
+  box.appendChild(fila("Quién puede emitir más",ma||"Nadie (revocada)",ma===SEGURA||ma===null,ma===SEGURA?"Una sola wallet identificada, la publicada":ma===null?"Emisión cerrada para siempre":"No coincide con la wallet publicada"));
+  box.appendChild(fila("Quién puede editar el nombre y el logo",upd,upd===SEGURA,upd===SEGURA?"Es la misma wallet publicada":"No coincide con la wallet publicada"));
+  box.appendChild(fila("Quién puede congelar cuentas",fa||"Nadie",!fa,!fa?"No existe esa autoridad: tus tokens no se pueden bloquear":"Existe una autoridad de congelación"));
+  $("hora").textContent="Última lectura: "+new Date().toLocaleString("es-PE")+". Wallet publicada: "+SEGURA;
+ }).catch(function(){box.textContent="No se pudo leer la red en este momento. Abre el contrato en Solscan para comprobarlo directamente.";});}
+$("cp").onclick=function(){var t=MINT,b=$("cp");(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent="Contrato copiado";setTimeout(function(){b.textContent="Copiar contrato"},2000)}).catch(function(){window.prompt("Copia el contrato:",t)});};
+$("rv").onclick=comprobar;comprobar();
+})();
+</script>
+</body></html>
